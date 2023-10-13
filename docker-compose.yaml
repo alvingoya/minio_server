@@ -5,7 +5,8 @@ services:
     container_name: minio_main
     image: docker.io/bitnami/minio:2023.10.7
     environment:
-      - MINIO_BROWSER_REDIRECT_URL=http://13.229.89.153:8081/minio-console
+      - MINIO_SERVER_URL=http://13.229.89.153
+      - MINIO_BROWSER_REDIRECT_URL=http://13.229.89.153/minio-console
     ports:
       - '9000:9000'
       - '9001:9001'
@@ -21,7 +22,7 @@ services:
       minio_main:
         condition: service_started
     ports:
-      - 8081:8081
+      - 80:80
     volumes:
       - ./nginx-alpine/conf:/opt/bitnami/nginx/conf/server_blocks
       - ./nginx-alpine/nginx.conf:/opt/bitnami/nginx/conf/nginx.conf:ro
