@@ -1,0 +1,36 @@
+version: '1.0'
+
+services:
+  minio_main:
+    container_name: minio_main
+    image: docker.io/bitnami/minio:2023.10.7
+    environment:
+      - MINIO_BROWSER_REDIRECT_URL=http://13.229.89.153:8081/minio-console
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    volumes:
+      - minio_data:/bitnami/minio/data
+    networks:
+      - platform-network
+  nginx_main:
+    container_name: nginx_main
+    image: docker.io/bitnami/nginx:1.25.2
+    build: nginx-alpine
+    depends_on:
+      minio_main:
+        condition: service_started
+    ports:
+      - 8081:8081
+    volumes:
+      - ./nginx-alpine/conf:/opt/bitnami/nginx/conf/server_blocks
+      - ./nginx-alpine/nginx.conf:/opt/bitnami/nginx/conf/nginx.conf:ro
+    networks:
+      - platform-network
+
+volumes:
+  minio_data: {}
+
+networks:
+  platform-network:
+    external: true
