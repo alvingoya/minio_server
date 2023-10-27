@@ -2,11 +2,12 @@ version: '1.0'
 
 services:
   minio_main:
+    user: root
     container_name: minio_main
     image: docker.io/bitnami/minio:2023.10.7
     environment:
-      - MINIO_SERVER_URL=http://13.229.89.153
-      - MINIO_BROWSER_REDIRECT_URL=http://13.229.89.153/minio-console
+      - MINIO_SERVER_URL=http://154.197.14.86
+      - MINIO_BROWSER_REDIRECT_URL=http://154.197.14.86/minio-console
     ports:
       - '9000:9000'
       - '9001:9001'
@@ -15,6 +16,7 @@ services:
     networks:
       - platform-network
   nginx_main:
+    user: root
     container_name: nginx_main
     image: docker.io/bitnami/nginx:1.25.2
     build: nginx-alpine
