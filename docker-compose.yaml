@@ -14,12 +14,11 @@ services:
     volumes:
       - /opt/minio/data:/bitnami/minio/data
     networks:
-      - platform-network
+      - minio_network
   nginx_minio:
     user: root
     container_name: nginx_minio
     image: docker.io/bitnami/nginx:1.25.2
-    build: nginx-alpine
     depends_on:
       minio_main:
         condition: service_started
@@ -29,8 +28,8 @@ services:
       - ./nginx-alpine/conf:/opt/bitnami/nginx/conf/server_blocks
       - ./nginx-alpine/nginx.conf:/opt/bitnami/nginx/conf/nginx.conf:ro
     networks:
-      - platform-network
+      - minio_network
 
 networks:
-  platform-network:
-    external: true
+  minio_network:
+    driver: bridge
