@@ -15,9 +15,9 @@ services:
       - /opt/minio/data:/bitnami/minio/data
     networks:
       - platform-network
-  nginx_main:
+  nginx_minio:
     user: root
-    container_name: nginx_main
+    container_name: nginx_minio
     image: docker.io/bitnami/nginx:1.25.2
     build: nginx-alpine
     depends_on:
