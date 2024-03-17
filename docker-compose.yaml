@@ -29,7 +29,7 @@ services:
     cpus: 5.0
     depends_on:
       minio_main:
-        condition: service_started
+        condition: service_healthy
     ports:
       - 80:80
     volumes:
