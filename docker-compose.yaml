@@ -1,11 +1,14 @@
-version: '2.2'
+version: '3.8'
 
 services:
   minio_main:
     user: root
     container_name: minio_main
     image: docker.io/bitnami/minio:2024.3.15
-    cpus: 20.0
+    deploy:
+      resources:
+        reservations:
+          cpus: "20.0"
     environment:
       - MINIO_SERVER_URL=http://154.197.14.86
       - MINIO_BROWSER_REDIRECT_URL=http://154.197.14.86/minio-console
@@ -26,7 +29,10 @@ services:
     user: root
     container_name: nginx_minio
     image: docker.io/bitnami/nginx:1.25.2
-    cpus: 5.0
+    deploy:
+      resources:
+        reservations:
+          cpus: "5.0"
     depends_on:
       minio_main:
         condition: service_healthy
