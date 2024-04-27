@@ -9,19 +9,21 @@ services:
       resources:
         reservations:
           cpus: "20.0"
-    environment:
-      - MINIO_SERVER_URL=http://154.197.14.86
-      - MINIO_BROWSER_REDIRECT_URL=http://154.197.14.86/minio-console
     ports:
       - '9000:9000'
-      - '9001:9001'
+    environment:
+      - MINIO_ROOT_USER=minio
+      - MINIO_ROOT_PASSWORD=minio123
+      - MINIO_SERVER_URL=http://206.119.83.31
+      - MINIO_BROWSER_REDIRECT_URL=http://206.119.83.31/minio-console
     volumes:
       - /opt/minio/data:/bitnami/minio/data
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://154.197.14.86:9000/minio/health/live"]
-      interval: 30s
-      timeout: 20s
+      test: "curl -s -o /dev/null -w '%{http_code}' 127.0.0.1:9000/minio/health/live | grep 200 || exit 1"
+      start_period: 10s
+      interval: 5s
+      timeout: 5s
       retries: 3
     networks:
       - minio_network
