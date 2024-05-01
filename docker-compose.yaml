@@ -9,8 +9,6 @@ services:
       resources:
         reservations:
           cpus: "20.0"
-    ports:
-      - '9000:9000'
     environment:
       - MINIO_ROOT_USER=minio
       - MINIO_ROOT_PASSWORD=miniosecret
